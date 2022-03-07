@@ -2,9 +2,11 @@
 This repo contains a demo on how to use HCP Packer for manage an AWS EC2 AMI
 
 ## Prerequisites for use HCP Packer
-Packer version 1.7.9
-HCP account
-Public cloud account
+
+* Packer must be at least version 1.7.9
+Refer to this link for update/install it: https://learn.hashicorp.com/tutorials/packer/get-started-install-cli
+* HCP account
+* Public cloud account
 
 ## Get owner-id of an AMI image
 ```
