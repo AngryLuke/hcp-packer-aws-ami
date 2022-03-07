@@ -59,11 +59,11 @@ build {
 This is a test where image being published to HCP Packer Registry.
     EOT
     bucket_labels = {
-      "version" = "1.0.0",
-      "region"  = var.ami_region,
+      "team"       = "ubuntu-server",
+      "os"         = "ubuntu",
+      "os-version" = "20.04"
     }
   }
-  sources = [
-    "source.amazon-ebs.eu-weast-3"
-  ]
+
+  sources = ["source.amazon-ebs.ubuntu"]
 }
