@@ -12,7 +12,7 @@ locals {
 }
 
 local "full_source_ami_name" {
-  expression = "packer-aws-${var.os_name}-${var.os_version}"
+  expression = "packer-aws-${var.os_name}-${var.os_version}-${local.timestamp}"
   sensitive  = false
 }
 
