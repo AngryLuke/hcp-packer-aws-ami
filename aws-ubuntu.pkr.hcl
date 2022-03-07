@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     amazon = {
-      version = ">= 1.0.1"
+      version = ">= 1.0.2"
       source  = "github.com/hashicorp/amazon"
     }
   }
@@ -54,21 +54,12 @@ source "amazon-ebs" "ubuntu" {
   )}"
 }
 
-build {
-  hcp_packer_registry {
-    bucket_name = "${var.os_name}-${var.os_cpu_arch}-${var.os_suffix}"
-    channel     = "staging"
-    description = <<EOT
-This is a test where image being published to HCP Packer Registry.
-    EOT
-    bucket_labels = {
-      "team"       = "engineering",
-      "os"         = "ubuntu",
-      "os-version" = "20.04"
-    }
-  }
 
+build {
+  name    = "packer-${var.os_name}-${var.os_version}-golden"
   sources = ["source.amazon-ebs.ubuntu"]
+
+  # execute commands before push image to HCP registry
   provisioner "shell" {
     inline = [
       "sudo apt update",
@@ -77,6 +68,20 @@ This is a test where image being published to HCP Packer Registry.
       "sudo ufw allow 'nginx http' && sudo ufw allow 'nginx https'",
       "sudo ufw reload && sudo systemctl enable nginx"
     ]
+  }
+
+
+  # push new artifact to HCP registry
+  hcp_packer_registry {
+    bucket_name = "${var.os_name}-${var.os_cpu_arch}-${var.os_suffix}"
+    description = <<EOT
+This is a golden image base built on top of ubuntu 20.04.
+    EOT
+    bucket_labels = {
+      "team"       = "engineering",
+      "os"         = "ubuntu",
+      "os-version" = "20.04"
+    }
   }
 
 }
