@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     amazon = {
-      version = ">= 0.0.2"
+      version = ">= 1.0.1"
       source  = "github.com/hashicorp/amazon"
     }
   }
@@ -12,19 +12,21 @@ locals {
 }
 
 local "full_source_ami_name" {
-  expression = "${var.source_ami_name}-${local.timestamp}"
+  expression = "packer-aws-${var.os_name}-${var.os_version}"
   sensitive  = false
 }
 
 local "filter_name" {
-  expression = "${var.ami_name_filter}-*"
+  expression = "${var.os_name}/images/*${var.os_name}-${var.os_custom_name}-${var.os_version}-${var.os_cpu_arch}-${var.os_suffix}-*"
   sensitive  = false
 }
 
 locals {
   mandatory_tags = {
-    "Owner"     = var.ami_owner
-    "timestamp" = local.timestamp
+    "Owner"      = var.ami_owner
+    "timestamp"  = local.timestamp
+    "os"         = "ubuntu"
+    "os-version" = "20.04"
   }
 }
 
@@ -54,12 +56,13 @@ source "amazon-ebs" "ubuntu" {
 
 build {
   hcp_packer_registry {
-    bucket_name = "${var.ami_name}-${var.ami_owner}"
+    bucket_name = "${var.os_name}-${var.os_cpu_arch}-${var.os_suffix}"
+    channel "production"
     description = <<EOT
 This is a test where image being published to HCP Packer Registry.
     EOT
     bucket_labels = {
-      "team"       = "ubuntu-server",
+      "team"       = "engineering",
       "os"         = "ubuntu",
       "os-version" = "20.04"
     }
