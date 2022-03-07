@@ -57,7 +57,7 @@ source "amazon-ebs" "ubuntu" {
 build {
   hcp_packer_registry {
     bucket_name = "${var.os_name}-${var.os_cpu_arch}-${var.os_suffix}"
-    channel = "production"
+    channel     = "staging"
     description = <<EOT
 This is a test where image being published to HCP Packer Registry.
     EOT
@@ -69,4 +69,14 @@ This is a test where image being published to HCP Packer Registry.
   }
 
   sources = ["source.amazon-ebs.ubuntu"]
+  provisioner "shell" {
+    inline = [
+      "sudo apt update",
+      "sudo apt install -y nginx",
+      "sudo ufw enable",
+      "sudo ufw allow 'nginx http' && sudo ufw allow 'nginx https'",
+      "sudo ufw reload && sudo systemctl enable nginx"
+    ]
+  }
+
 }
