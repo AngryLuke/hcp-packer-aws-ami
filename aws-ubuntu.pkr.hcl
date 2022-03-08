@@ -117,7 +117,7 @@ This is a test where image being published to HCP Packer Registry.
   }
 
   sources = [
-    "source.amazon-ebs.ubuntu-eu-west-3", 
-    "source.amazon-ebs.ubuntu-eu-central-1" 
+    "source.amazon-ebs.ubuntu-eu-west-3",
+    "source.amazon-ebs.ubuntu-eu-central-1"
   ]
 }
