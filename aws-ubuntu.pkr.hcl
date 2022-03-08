@@ -28,12 +28,37 @@ locals {
   }
 }
 
-source "amazon-ebs" "ubuntu" {
-  count         = "${lenght(var.ami_regions)}"
+// source "amazon-ebs" "ubuntu" {
+//   count         = "${lenght(var.ami_regions)}"
+//   ami_name      = local.full_source_ami_name
+//   instance_type = var.ami_instance_type
+//   //region        = var.ami_eu_region_west_3
+//   region = "${var.ami_regions[count.list]}"
+//   source_ami_filter {
+//     filters = {
+//       name                = local.filter_name
+//       root-device-type    = var.ami_root_dev_type
+//       virtualization-type = var.ami_root_virt_type
+//     }
+//     most_recent = var.ami_most_recent
+//     //owners      = [var.source_ami_owner_eu_west_3]
+//     owners = "${var.source_ami_owners[count.list]}"
+//   }
+//   ssh_username = "ubuntu"
+
+//   # add tag
+//   tags = "${merge(
+//     local.mandatory_tags,
+//     {
+//       Name = local.full_source_ami_name
+//     }
+//   )}"
+// }
+
+source "amazon-ebs" "ubuntu-eu-west-3" {
   ami_name      = local.full_source_ami_name
   instance_type = var.ami_instance_type
-  //region        = var.ami_eu_region_west_3
-  region = "${var.ami_regions[count.list]}"
+  region        = var.ami_eu_region_west_3
   source_ami_filter {
     filters = {
       name                = local.filter_name
@@ -41,8 +66,7 @@ source "amazon-ebs" "ubuntu" {
       virtualization-type = var.ami_root_virt_type
     }
     most_recent = var.ami_most_recent
-    //owners      = [var.source_ami_owner_eu_west_3]
-    owners = "${var.source_ami_owners[count.list]}"
+    owners      = [var.source_ami_owner_eu_west_3]
   }
   ssh_username = "ubuntu"
 
@@ -55,53 +79,29 @@ source "amazon-ebs" "ubuntu" {
   )}"
 }
 
-// source "amazon-ebs" "ubuntu-eu-west-3" {
-//   ami_name      = local.full_source_ami_name
-//   instance_type = var.ami_instance_type
-//   region        = var.ami_eu_region_west_3
-//   source_ami_filter {
-//     filters = {
-//       name                = local.filter_name
-//       root-device-type    = var.ami_root_dev_type
-//       virtualization-type = var.ami_root_virt_type
-//     }
-//     most_recent = var.ami_most_recent
-//     owners      = [var.source_ami_owner_eu_west_3]
-//   }
-//   ssh_username = "ubuntu"
+source "amazon-ebs" "ubuntu-eu-central-1" {
+  ami_name      = local.full_source_ami_name
+  instance_type = var.ami_instance_type
+  region        = var.ami_eu_region_central_1
+  source_ami_filter {
+    filters = {
+      name                = local.filter_name
+      root-device-type    = var.ami_root_dev_type
+      virtualization-type = var.ami_root_virt_type
+    }
+    most_recent = var.ami_most_recent
+    owners      = [var.source_ami_owner_eu_central_1]
+  }
+  ssh_username = "ubuntu"
 
-//   # add tag
-//   tags = "${merge(
-//     local.mandatory_tags,
-//     {
-//       Name = local.full_source_ami_name
-//     }
-//   )}"
-// }
-
-// source "amazon-ebs" "ubuntu-eu-central-1" {
-//   ami_name      = local.full_source_ami_name
-//   instance_type = var.ami_instance_type
-//   region        = var.ami_eu_region_central_1
-//   source_ami_filter {
-//     filters = {
-//       name                = local.filter_name
-//       root-device-type    = var.ami_root_dev_type
-//       virtualization-type = var.ami_root_virt_type
-//     }
-//     most_recent = var.ami_most_recent
-//     owners      = [var.source_ami_owner_eu_central_1]
-//   }
-//   ssh_username = "ubuntu"
-
-//   # add tag
-//   tags = "${merge(
-//     local.mandatory_tags,
-//     {
-//       Name = local.full_source_ami_name
-//     }
-//   )}"
-// }
+  # add tag
+  tags = "${merge(
+    local.mandatory_tags,
+    {
+      Name = local.full_source_ami_name
+    }
+  )}"
+}
 
 build {
   hcp_packer_registry {
@@ -116,9 +116,8 @@ This is a test where image being published to HCP Packer Registry.
     }
   }
 
-  sources = ["source.amazon-ebs.ubuntu"]
-  // sources = [
-  //   "source.amazon-ebs.ubuntu-eu-west-3", 
-  //   "source.amazon-ebs.ubuntu-eu-central-1" 
-  // ]
+  sources = [
+    "source.amazon-ebs.ubuntu-eu-west-3", 
+    "source.amazon-ebs.ubuntu-eu-central-1" 
+  ]
 }
