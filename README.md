@@ -9,8 +9,11 @@ Refer to this link for update/install it: https://learn.hashicorp.com/tutorials/
 * Public cloud account
 
 ## Get owner-id of an AMI image
+Actually this repo works for eu-central-1 and eu-west-3 AWS regions
+
 ```
 aws ec2 describe-images --image-ids ami-0c6ebbd55ab05f070 --region eu-west-3 | jq -r ".Images[].OwnerId"
+aws ec2 describe-images --image-ids ami-0d527b8c289b4af7f --region eu-central-1 | jq -r ".Images[].OwnerId"
 ```
 
 ## Configure your env to make it use HCP Packer

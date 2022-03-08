@@ -1,32 +1,3 @@
-variable "ami_eu_region_west_3" {
-  type    = string
-  default = "eu-west-3"
-}
-
-variable "source_ami_owner_eu_west_3" {
-  type    = string
-  default = "099720109477"
-}
-
-variable "ami_eu_region_central_1" {
-  type    = string
-  default = "eu-central-1"
-}
-variable "source_ami_owner_eu_central_1" {
-  type    = string
-  default = "099720109477"
-}
-
-// variable "ami_regions" {
-//   type    = list(string)
-//   default = ["eu-west-3", "eu-central-1"]
-// }
-
-// variable "source_ami_owners" {
-//   type    = list(string)
-//   default = ["099720109477", "137112412989"]
-// }
-
 variable "ami_instance_type" {
   type    = string
   default = "t3.micro"
