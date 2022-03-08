@@ -31,12 +31,12 @@ packer validate .
 
 ### Build semplice
 ```
-packer build <file>.hcl
+packer build .
 ```
 
 Or if you want to use a variables file, first create a file *.pkrvars.hcl 
 
 ```
-packer build --var-file=<file.pkrvars.hcl> <file.pkr.hcl>
+packer build --var-file=<file.pkrvars.hcl> .
 ```
 
