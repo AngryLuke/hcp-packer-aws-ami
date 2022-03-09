@@ -54,10 +54,82 @@ source "amazon-ebs" "ubuntu-eu-west-3" {
   )}"
 }
 
+source "amazon-ebs" "ubuntu-eu-west-1" {
+  ami_name      = local.full_source_ami_name
+  instance_type = var.ami_instance_type
+  region        = "eu-west-1"
+  source_ami_filter {
+    filters = {
+      name                = local.filter_name
+      root-device-type    = var.ami_root_dev_type
+      virtualization-type = var.ami_root_virt_type
+    }
+    most_recent = var.ami_most_recent
+    owners      = ["099720109477"]
+  }
+  ssh_username = "ubuntu"
+
+  # add tag
+  tags = "${merge(
+    local.mandatory_tags,
+    {
+      Name = local.full_source_ami_name
+    }
+  )}"
+}
+
+source "amazon-ebs" "ubuntu-eu-west-2" {
+  ami_name      = local.full_source_ami_name
+  instance_type = var.ami_instance_type
+  region        = "eu-west-2"
+  source_ami_filter {
+    filters = {
+      name                = local.filter_name
+      root-device-type    = var.ami_root_dev_type
+      virtualization-type = var.ami_root_virt_type
+    }
+    most_recent = var.ami_most_recent
+    owners      = ["099720109477"]
+  }
+  ssh_username = "ubuntu"
+
+  # add tag
+  tags = "${merge(
+    local.mandatory_tags,
+    {
+      Name = local.full_source_ami_name
+    }
+  )}"
+}
+
 source "amazon-ebs" "ubuntu-eu-central-1" {
   ami_name      = local.full_source_ami_name
   instance_type = var.ami_instance_type
   region        = "eu-central-1"
+  source_ami_filter {
+    filters = {
+      name                = local.filter_name
+      root-device-type    = var.ami_root_dev_type
+      virtualization-type = var.ami_root_virt_type
+    }
+    most_recent = var.ami_most_recent
+    owners      = ["099720109477"]
+  }
+  ssh_username = "ubuntu"
+
+  # add tag
+  tags = "${merge(
+    local.mandatory_tags,
+    {
+      Name = local.full_source_ami_name
+    }
+  )}"
+}
+
+source "amazon-ebs" "ubuntu-eu-north-1" {
+  ami_name      = local.full_source_ami_name
+  instance_type = var.ami_instance_type
+  region        = "eu-north-1"
   source_ami_filter {
     filters = {
       name                = local.filter_name
@@ -94,7 +166,10 @@ This is a test where image being published to HCP Packer Registry.
 
   sources = [
     "source.amazon-ebs.ubuntu-eu-west-3",
-    "source.amazon-ebs.ubuntu-eu-central-1"
+    "source.amazon-ebs.ubuntu-eu-west-1",
+    "source.amazon-ebs.ubuntu-eu-west-2",
+    "source.amazon-ebs.ubuntu-eu-central-1",
+    "source.amazon-ebs.ubuntu-eu-north-1"
   ]
 
   provisioner "shell" {
