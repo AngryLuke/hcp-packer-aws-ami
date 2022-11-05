@@ -60,5 +60,5 @@ variable "ami_name" {
 
 variable "ami_owner" {
   type    = string
-  default = "lbolli"
+  default = "lbolli@hashicorp.com"
 }
