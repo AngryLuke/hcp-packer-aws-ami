@@ -153,7 +153,7 @@ source "amazon-ebs" "ubuntu-eu-north-1" {
 build {
   hcp_packer_registry {
     bucket_name = "${var.os_name}-${var.os_cpu_arch}-${var.os_suffix}"
-    channel     = "staging"
+    channel     = "${var.hcp_packer_channel}"
     description = <<EOT
 This is a test where image being published to HCP Packer Registry.
     EOT

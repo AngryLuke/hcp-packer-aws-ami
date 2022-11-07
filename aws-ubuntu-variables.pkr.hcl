@@ -62,3 +62,8 @@ variable "ami_owner" {
   type    = string
   default = "lbolli@hashicorp.com"
 }
+
+variable "hcp_packer_channel" {
+  type    = string
+  default = "staging"
+}
