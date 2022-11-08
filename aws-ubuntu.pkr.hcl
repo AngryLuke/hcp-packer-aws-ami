@@ -172,10 +172,15 @@ This is a test where image being published to HCP Packer Registry.
     "source.amazon-ebs.ubuntu-eu-north-1"
   ]
 
+  provisioner "file" {
+    source       = "assets/packages.txt"
+    destination = "/tmp/packages"
+  }
+
   provisioner "shell" {
     inline = [
-      "sudo apt update",
-      "sudo apt install -y nginx",
+      "sudo apt-get update",
+      "xargs sudo apt-get install -y </tmp/packages",
       "sudo ufw enable",
       "sudo ufw allow 'nginx http' && sudo ufw allow 'nginx https'",
       "sudo ufw reload && sudo systemctl enable nginx"
