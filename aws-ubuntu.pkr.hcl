@@ -173,7 +173,7 @@ This is a test where image being published to HCP Packer Registry.
   ]
 
   provisioner "file" {
-    source       = "assets/packages.txt"
+    source      = "assets/packages.txt"
     destination = "/tmp/packages"
   }
 
