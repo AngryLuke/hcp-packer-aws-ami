@@ -177,9 +177,18 @@ This is a test where image being published to HCP Packer Registry.
     destination = "/tmp/packages"
   }
 
+  provisioner "file" {
+    source      = "assets/nginx.conf"
+    destination = "/tmp/nginx.conf"
+  }
+
   provisioner "shell" {
     inline = [
+      "sudo mkdir -p /usr/local/nginx/conf/",
+      "sudo chmod -R 750 /usr/local/nginx/conf/",
+      "sudo cp /tmp/nginx.conf /usr/local/nginx/conf/",
       "sudo apt-get update",
+      "sudo chmod 640 /usr/local/nginx/conf/nginx.conf",
       "xargs sudo apt-get install -y </tmp/packages",
       "sudo ufw enable",
       "sudo ufw allow 'nginx http' && sudo ufw allow 'nginx https'",
